@@ -1,6 +1,3 @@
 *.xise
-*.ucf
-*.cmd
-*.log
 iseconfig/
 ipcore_dir/
