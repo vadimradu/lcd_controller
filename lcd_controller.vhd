@@ -27,14 +27,16 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --use UNISIM.VComponents.all;
 
 entity lcd_controller is
-	generic( horiz_length	:		integer	:= 24; --must be actual size -1
+	generic( horiz_length	:		integer	:= 20; --must be actual size -4
 				horiz_overhead	:		integer	:= 1;
 				vertical_length:		integer	:=	4;  --must be actual size -1
 				frame_overhead	:		integer	:= 1); 
 	port(clk_in:	in		std_logic;
 			px_clk:	out	std_logic;
 			ln_clk:	out	std_logic;
-			fr_clk:	out	std_logic);
+			fr_clk:	out	std_logic;
+			px_pos_x:	out	integer range 0 to horiz_length;
+			px_pos_y:	out	integer range 0 to vertical_length);
 end lcd_controller;
 
 architecture Behavioral of lcd_controller is
@@ -80,6 +82,7 @@ begin
 			else
 				h_counter <= 0;
 			end if;
+			
 		end if;	
 	end process;
 	vertical_counter: process (h_counter) is
@@ -107,8 +110,20 @@ begin
 		else
 			px_clk	<=	pixel_clk;
 		end if;
-		ln_clk	<=	line_clk;
-		fr_clk	<=	frame_clk;
+	end process;
+	ln_clk	<=	line_clk;
+	fr_clk	<=	frame_clk;
+	px_pos_y<=v_counter;
+	
+	process(h_counter) is
+	begin
+		if h_counter = 0 then
+			px_pos_x <= 0;
+		elsif(h_counter < horiz_length/4)then
+			px_pos_x<=h_counter*4 -1;
+		else 
+			px_pos_x <=horiz_length-1;
+		end if;
 	end process;
 end Behavioral;
 
