@@ -2,7 +2,7 @@
 -- Company: 
 -- Engineer:
 --
--- Create Date:   12:00:49 05/04/2015
+-- Create Date:   12:52:43 05/04/2015
 -- Design Name:   
 -- Module Name:   /home/vadim/Work/projects/lcd_controller/ctrl_test.vhd
 -- Project Name:  lcd_controller
@@ -44,7 +44,9 @@ ARCHITECTURE behavior OF ctrl_test IS
          clk_in : IN  std_logic;
          px_clk : OUT  std_logic;
          ln_clk : OUT  std_logic;
-         fr_clk : OUT  std_logic
+         fr_clk : OUT  std_logic;
+         px_pos_x : OUT  integer;
+         px_pos_y : OUT  integer
         );
     END COMPONENT;
     
@@ -56,9 +58,12 @@ ARCHITECTURE behavior OF ctrl_test IS
    signal px_clk : std_logic;
    signal ln_clk : std_logic;
    signal fr_clk : std_logic;
+   signal px_pos_x : integer;
+   signal px_pos_y : integer;
 
    -- Clock period definitions
-   constant clk_in_period : time := 20 ns;
+   constant clk_in_period : time := 10 ns;
+
 BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
@@ -66,7 +71,9 @@ BEGIN
           clk_in => clk_in,
           px_clk => px_clk,
           ln_clk => ln_clk,
-          fr_clk => fr_clk
+          fr_clk => fr_clk,
+          px_pos_x => px_pos_x,
+          px_pos_y => px_pos_y
         );
 
    -- Clock process definitions
@@ -77,7 +84,7 @@ BEGIN
 		clk_in <= '1';
 		wait for clk_in_period/2;
    end process;
-
+ 
    -- Stimulus process
    stim_proc: process
    begin		

@@ -97,10 +97,11 @@ begin
 	end process;
 	frame_marker:	process	(v_counter, h_counter) is
 	begin
-		if v_counter = vertical_length or v_counter = 0 then
-			if h_counter= frame_overhead then
+		if (v_counter = vertical_length or v_counter = 0) and h_counter= frame_overhead then
 				frame_clk <=not frame_clk;
-			end if;
+			else
+				frame_clk <= frame_clk;
+		
 		end if;
 	end process;
 	output_conditioning:	process(pixel_clk)	is
